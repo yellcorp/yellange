@@ -12,6 +12,7 @@
     "test": "nyc --reporter=html --reporter=text mocha",
     "lint": "eslint ./**/*.js",
     "test-browser": "npm run build && npm run server",
+    "reindex": "node ./tools/reindex.js",
     "unicode-download-data-files": "node ./tools/unicode/download-data-files.js",
     "unicode-generate-gcb": "node ./tools/unicode/generate-gcb.js",
     "unicode-generate-gcb-testdata": "node ./tools/unicode/generate-gcb-testdata.js"
