@@ -1,3 +1,4 @@
 /.nyc_output/
+/bundle/
 /coverage/
 /node_modules/

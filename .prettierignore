@@ -1,5 +1,6 @@
 .idea
 .nyc_output
+bundle
 coverage
 node_modules
 packag*.json
