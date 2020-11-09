@@ -9,6 +9,7 @@
     "format": "prettier --write .",
     "server": "http-server . --port 7979 -o /test/ -c-1 --no-dotfiles",
     "test": "nyc --reporter=html --reporter=text mocha",
+    "lint": "eslint index.js string.js",
     "test-browser": "npm run build && npm run server"
   },
   "author": "Jim Boswell <jimb@yellcorp.org> (http://yellcorp.org/)",
@@ -18,6 +19,8 @@
     "@babel/preset-env": "^7.12.1",
     "@babel/register": "^7.12.1",
     "chai": "^4.2.0",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
     "http-server": "^0.12.3",
     "mocha": "^8.2.1",
     "nyc": "^15.1.0",
