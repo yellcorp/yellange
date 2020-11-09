@@ -1,16 +1,20 @@
 {
-  "name": "yellange",
+  "name": "@yellcorp/yellange",
   "version": "0.1.0",
   "description": "Melange of JS libraries motivated by mid-2010s frontend development",
   "repository": "github:yellcorp/yellange",
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
+    "doc": "esdoc",
     "format": "prettier --write .",
     "server": "http-server . --port 7979 -o /test/ -c-1 --no-dotfiles",
     "test": "nyc --reporter=html --reporter=text mocha",
-    "lint": "eslint index.js string.js",
-    "test-browser": "npm run build && npm run server"
+    "lint": "eslint bimap.js color.js events.js index.js lang.js orderedmap.js ratesampler.js regex.js string.js css/**/*.js funcanim/**/*.js geom/**/*.js lib/**/*.js unicode/**/*.js",
+    "test-browser": "npm run build && npm run server",
+    "unicode-download-data-files": "node ./tools/unicode/download-data-files.js",
+    "unicode-generate-gcb": "node ./tools/unicode/generate-gcb.js",
+    "unicode-generate-gcb-testdata": "node ./tools/unicode/generate-gcb-testdata.js"
   },
   "author": "Jim Boswell <jimb@yellcorp.org> (http://yellcorp.org/)",
   "license": "MIT",
@@ -19,12 +23,16 @@
     "@babel/preset-env": "^7.12.1",
     "@babel/register": "^7.12.1",
     "chai": "^4.2.0",
+    "download": "^8.0.0",
+    "esdoc": "^1.1.0",
+    "esdoc-standard-plugin": "^1.0.0",
     "eslint": "^7.13.0",
     "eslint-config-prettier": "^6.15.0",
     "http-server": "^0.12.3",
     "mocha": "^8.2.1",
     "nyc": "^15.1.0",
     "prettier": "2.1.2",
+    "sinon": "^9.2.1",
     "webpack": "^5.4.0",
     "webpack-cli": "^4.2.0"
   }

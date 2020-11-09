@@ -1,0 +1,16 @@
+{
+  "source": "./",
+  "destination": "./doc",
+  "plugins": [{ "name": "esdoc-standard-plugin" }],
+  "outputAST": false,
+  "excludes": [
+    "^\\.",
+    "\\.config\\.js$",
+    "bundle\\/",
+    "config\\/",
+    "coverage\\/",
+    "doc\\/",
+    "node_modules\\/",
+    "test\\/"
+  ]
+}

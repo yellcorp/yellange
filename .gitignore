@@ -1,4 +1,6 @@
 /.nyc_output/
 /bundle/
 /coverage/
+/doc/
 /node_modules/
+/tools/unicode/data/external/

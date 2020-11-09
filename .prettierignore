@@ -2,5 +2,7 @@
 .nyc_output
 bundle
 coverage
+doc
 node_modules
 packag*.json
+tools/unicode/data/external

@@ -2,7 +2,7 @@ const { join, resolve, sep } = require('path');
 const { readdirSync } = require('fs');
 
 function isTestFile(name) {
-  return name && name[0] !== '.' && /\.js$/.test(name);
+  return name && name[0] !== '.' && /\.test\.js$/.test(name);
 }
 
 function enumerateTests(root) {
