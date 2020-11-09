@@ -10,7 +10,7 @@
     "format": "prettier --write .",
     "server": "http-server . --port 7979 -o /test/ -c-1 --no-dotfiles",
     "test": "nyc --reporter=html --reporter=text mocha",
-    "lint": "eslint bimap.js color.js events.js index.js lang.js orderedmap.js ratesampler.js regex.js string.js css/**/*.js funcanim/**/*.js geom/**/*.js lib/**/*.js unicode/**/*.js",
+    "lint": "eslint ./**/*.js",
     "test-browser": "npm run build && npm run server",
     "unicode-download-data-files": "node ./tools/unicode/download-data-files.js",
     "unicode-generate-gcb": "node ./tools/unicode/generate-gcb.js",
