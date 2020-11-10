@@ -7,7 +7,7 @@ describe('lang#isArrayLike', () => {
     assert.isTrue(isArrayLike([]));
   });
 
-  it('is true for arguments', () => {
+  it('is true for arguments', function () {
     assert.isTrue(isArrayLike(arguments));
   });
 

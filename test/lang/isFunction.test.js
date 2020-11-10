@@ -26,7 +26,8 @@ describe('lang#isFunction', () => {
     assert.isFalse(isFunction(void 0));
   });
 
-  it('is false for a sampling of other stuff', () => {
+  it('is false for a sampling of other stuff', function () {
+    // avoiding an arrow function here so we can use `arguments` below
     assert.isFalse(isFunction('astring'));
     assert.isFalse(isFunction(0));
     assert.isFalse(isFunction(1));
