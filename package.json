@@ -1,6 +1,6 @@
 {
   "name": "@yellcorp/yellange",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Melange of JS libraries motivated by mid-2010s frontend development",
   "repository": "github:yellcorp/yellange",
   "main": "index.js",
