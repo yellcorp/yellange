@@ -23,36 +23,41 @@ function canRead(path) {
   );
 }
 
-function exportLine(identifier) {
-  const path = `./${identifier}`;
-  return `export * as ${identifier} from ${JSON.stringify(path)};`;
-}
-
 async function main() {
-  const indexLines = [];
-
   const outPath = resolve(ROOT, INDEX_JS);
   const entries = await fs.promises.readdir(ROOT, { withFileTypes: true });
 
+  const includedModules = [];
   for (const entry of entries) {
     if (entry.isSymbolicLink()) continue;
     if (entry.isDirectory()) {
       const submoduleIndexPath = resolve(ROOT, entry.name, INDEX_JS);
       if (await canRead(submoduleIndexPath)) {
-        indexLines.push(exportLine(entry.name));
+        includedModules.push(entry.name);
       }
     } else if (entry.isFile()) {
       if (includeFile(entry.name)) {
         if (entry.name !== INDEX_JS) {
           const bareName = entry.name.slice(0, -3);
-          indexLines.push(exportLine(bareName));
+          includedModules.push(bareName);
         }
       }
     }
   }
 
-  indexLines.sort();
-  indexLines.push(''); // blank line at the end
+  includedModules.sort();
+  const indexLines = [];
+  for (const identifier of includedModules) {
+    const path = `./${identifier}`;
+    indexLines.push(`import * as ${identifier} from ${JSON.stringify(path)};`);
+  }
+
+  indexLines.push('', 'export {');
+  for (const identifier of includedModules) {
+    indexLines.push(`  ${identifier},`);
+  }
+  indexLines.push('};', '');
+
   await fs.promises.writeFile(outPath, indexLines.join('\n'), {
     encoding: 'utf8',
   });

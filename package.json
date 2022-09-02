@@ -17,7 +17,7 @@
     "unicode-generate-gcb": "node ./tools/unicode/generate-gcb.js",
     "unicode-generate-gcb-testdata": "node ./tools/unicode/generate-gcb-testdata.js"
   },
-  "author": "Jim Boswell <jimb@yellcorp.org> (http://yellcorp.org/)",
+  "author": "Jim Boswell <jimb@yellcorp.org> (https://yellcorp.org/)",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.12.3",
