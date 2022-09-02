@@ -25,63 +25,16 @@
  * space-separated string.
  */
 
-// implementation note:
-//
-// The methods on Builder and the exported functions are generated dynamically.
-// Builder methods return the instance it was called on for chaining.
-// Module-level functions are very similar, but first construct a Builder
-// instance, then pass the arguments to the same-named method on it, and return
-// the Builder.
-
-// The function/method names are ultimately taken from the keys of the
-// FUNC_SPECS object.
-
 const DEFAULT_UNITS = {
   length: 'px',
   angle: 'rad',
 };
 
-const FUNC_SPECS = {
-  matrix: 'number*6',
-  matrix3d: 'number*16',
+const ARG_MEMO = {};
+const FORMATTER_MEMO = {};
 
-  translate: 'length length?',
-  translate3d: 'length*3',
-  translateX: 'length',
-  translateY: 'length',
-  translateZ: 'length',
-
-  scale: 'number number?',
-  scale3d: 'number*3',
-  scaleX: 'number',
-  scaleY: 'number',
-  scaleZ: 'number',
-
-  rotate: 'angle',
-  rotate3d: 'length*3 angle',
-  rotateX: 'angle',
-  rotateY: 'angle',
-  rotateZ: 'angle',
-
-  skew: 'angle angle?',
-  skewX: 'angle',
-  skewY: 'angle',
-
-  perspective: 'length',
-};
-
-export class Builder {
-  constructor() {
-    this._builder = [];
-  }
-
-  toString() {
-    return this._builder.join(' ');
-  }
-}
-
-function parseArgSpecs(argSpec) {
-  const tokens = argSpec.split(' ');
+function parseArgDescriptors(argDescString) {
+  const tokens = argDescString.split(' ');
   const result = [];
 
   for (let i = 0; i < tokens.length; i++) {
@@ -113,7 +66,7 @@ function parseArgSpecs(argSpec) {
   return result;
 }
 
-function makeStringFunc(name, argDescs) {
+function makeFormatter(name, argDescs) {
   return function (args) {
     let argString = '';
 
@@ -135,32 +88,126 @@ function makeStringFunc(name, argDescs) {
   };
 }
 
-// makeStringMethod creates methods for assigning to Builder.prototype, so tell
-// the linter `this` is allowed outside a class/object literal context.
+export class Builder {
+  constructor() {
+    this._transform = [];
+  }
 
-/* eslint-disable no-invalid-this */
-function makeStringMethod(stringFunc) {
-  return function (...args) {
-    this._builder.push(stringFunc(args));
+  _push(cssFunctionName, argDesc, args) {
+    let renderer = FORMATTER_MEMO[cssFunctionName];
+    if (!renderer) {
+      const parsedArgDescs =
+        ARG_MEMO[argDesc] || (ARG_MEMO[argDesc] = parseArgDescriptors(argDesc));
+      renderer = FORMATTER_MEMO[cssFunctionName] = makeFormatter(
+        cssFunctionName,
+        parsedArgDescs
+      );
+    }
+    this._transform.push(renderer(args));
     return this;
-  };
-}
-/* eslint-enable no-invalid-this */
+  }
 
-function makeInitiatorFunction(methodName) {
-  return function (...args) {
-    const w = new Builder();
-    return w[methodName](...args);
-  };
-}
+  matrix(...a) {
+    return this._push('matrix', 'number*6', a);
+  }
+  matrix3d(...a) {
+    return this._push('matrix3d', 'number*16', a);
+  }
 
-function init(builderPrototype, moduleExports) {
-  for (const funcName of Object.keys(FUNC_SPECS)) {
-    const argDescs = parseArgSpecs(FUNC_SPECS[funcName]);
-    const stringFunc = makeStringFunc(funcName, argDescs);
-    builderPrototype[funcName] = makeStringMethod(stringFunc);
-    moduleExports[funcName] = makeInitiatorFunction(funcName);
+  translate(...a) {
+    return this._push('translate', 'length length?', a);
+  }
+  translate3d(...a) {
+    return this._push('translate3d', 'length*3', a);
+  }
+  translateX(...a) {
+    return this._push('translateX', 'length', a);
+  }
+  translateY(...a) {
+    return this._push('translateY', 'length', a);
+  }
+  translateZ(...a) {
+    return this._push('translateZ', 'length', a);
+  }
+
+  scale(...a) {
+    return this._push('scale', 'number number?', a);
+  }
+  scale3d(...a) {
+    return this._push('scale3d', 'number*3', a);
+  }
+  scaleX(...a) {
+    return this._push('scaleX', 'number', a);
+  }
+  scaleY(...a) {
+    return this._push('scaleY', 'number', a);
+  }
+  scaleZ(...a) {
+    return this._push('scaleZ', 'number', a);
+  }
+
+  rotate(...a) {
+    return this._push('rotate', 'angle', a);
+  }
+  rotate3d(...a) {
+    return this._push('rotate3d', 'length*3 angle', a);
+  }
+  rotateX(...a) {
+    return this._push('rotateX', 'angle', a);
+  }
+  rotateY(...a) {
+    return this._push('rotateY', 'angle', a);
+  }
+  rotateZ(...a) {
+    return this._push('rotateZ', 'angle', a);
+  }
+
+  skew(...a) {
+    return this._push('skew', 'angle angle?', a);
+  }
+  skewX(...a) {
+    return this._push('skewX', 'angle', a);
+  }
+  skewY(...a) {
+    return this._push('skewY', 'angle', a);
+  }
+
+  perspective(...a) {
+    return this._push('perspective', 'length', a);
+  }
+
+  toString() {
+    return this._transform.join(' ');
   }
 }
 
-init(Builder.prototype, { Builder });
+function startWith(methodName, args) {
+  return new Builder()[methodName](...args);
+}
+
+export const matrix = (...a) => startWith('matrix', a);
+export const matrix3d = (...a) => startWith('matrix3d', a);
+
+export const translate = (...a) => startWith('translate', a);
+export const translate3d = (...a) => startWith('translate3d', a);
+export const translateX = (...a) => startWith('translateX', a);
+export const translateY = (...a) => startWith('translateY', a);
+export const translateZ = (...a) => startWith('translateZ', a);
+
+export const scale = (...a) => startWith('scale', a);
+export const scale3d = (...a) => startWith('scale3d', a);
+export const scaleX = (...a) => startWith('scaleX', a);
+export const scaleY = (...a) => startWith('scaleY', a);
+export const scaleZ = (...a) => startWith('scaleZ', a);
+
+export const rotate = (...a) => startWith('rotate', a);
+export const rotate3d = (...a) => startWith('rotate3d', a);
+export const rotateX = (...a) => startWith('rotateX', a);
+export const rotateY = (...a) => startWith('rotateY', a);
+export const rotateZ = (...a) => startWith('rotateZ', a);
+
+export const skew = (...a) => startWith('skew', a);
+export const skewX = (...a) => startWith('skewX', a);
+export const skewY = (...a) => startWith('skewY', a);
+
+export const perspective = (...a) => startWith('perspective', a);
