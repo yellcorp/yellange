@@ -6,10 +6,12 @@
  * better by someone else, who knows!
  */
 
-export * as functional from './functional';
-export * as linear from './linear';
-export * as range from './range';
-export * as smoothing from './smoothing';
-export * as tracks from './tracks';
-export * as bezier from './bezier';
-export * as interop from './interop';
+import * as functional from './functional';
+import * as linear from './linear';
+import * as range from './range';
+import * as smoothing from './smoothing';
+import * as tracks from './tracks';
+import * as bezier from './bezier';
+import * as interop from './interop';
+
+export { functional, linear, range, smoothing, tracks, bezier, interop };

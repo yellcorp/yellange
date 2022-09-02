@@ -8,14 +8,28 @@
  * I could've sworn I had unit tests for these somewhere.
  */
 
-export * as geomcanvas from './geomcanvas';
-export * as intersect from './intersect';
-export * as mat2 from './mat2';
-export * as mat3 from './mat3';
-export * as mat4 from './mat4';
-export * as mata5 from './mata5';
-export * as quaternion from './quaternion';
-export * as rectangle from './rectangle';
-export * as vec2 from './vec2';
-export * as vec3 from './vec3';
-export * as vec4 from './vec4';
+import * as geomcanvas from './geomcanvas';
+import * as intersect from './intersect';
+import * as mat2 from './mat2';
+import * as mat3 from './mat3';
+import * as mat4 from './mat4';
+import * as mata5 from './mata5';
+import * as quaternion from './quaternion';
+import * as rectangle from './rectangle';
+import * as vec2 from './vec2';
+import * as vec3 from './vec3';
+import * as vec4 from './vec4';
+
+export {
+  geomcanvas,
+  intersect,
+  mat2,
+  mat3,
+  mat4,
+  mata5,
+  quaternion,
+  rectangle,
+  vec2,
+  vec3,
+  vec4,
+};

@@ -6,9 +6,11 @@
  * of the Unicode database. So far we have Grapheme Cluster Breaking.
  */
 
-export * as codec from './codec';
-export * as core from './core';
-export * as gcb from './gcb';
-export * as utf8 from './utf8';
-export * as utf16 from './utf16';
-export * as utf32 from './utf32';
+import * as codec from './codec';
+import * as core from './core';
+import * as gcb from './gcb';
+import * as utf8 from './utf8';
+import * as utf16 from './utf16';
+import * as utf32 from './utf32';
+
+export { codec, core, gcb, utf8, utf16, utf32 };
